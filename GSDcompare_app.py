@@ -104,28 +104,20 @@ for col, name, arr in [(c1, "Photo", photo), (c2, "Field", field)]:
 st.header("3. Statistical tests (independent distributions)")
 
 ks_stat, ks_p = stats.ks_2samp(photo, field)
-u_stat, u_p = stats.mannwhitneyu(photo, field, alternative="two-sided")
-t_stat, t_p = stats.ttest_ind(photo, field, equal_var=False)
 t_log, p_log = stats.ttest_ind(np.log(photo), np.log(field), equal_var=False)
 
 st.table(
     {
         "Test": [
             "Kolmogorov-Smirnov",
-            "Mann-Whitney U",
-            "Welch t-test (raw)",
             "Welch t-test (log)",
         ],
         "Statistic": [
             f"D={ks_stat:.3f}",
-            f"U={u_stat:.1f}",
-            f"t={t_stat:.3f}",
             f"t={t_log:.3f}",
         ],
         "p-value": [
             f"{ks_p:.4f}",
-            f"{u_p:.4f}",
-            f"{t_p:.4f}",
             f"{p_log:.4f}",
         ],
     }
