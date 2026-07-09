@@ -1,6 +1,5 @@
 import numpy as np
 from scipy import stats
-from scipy.stats import gaussian_kde
 import matplotlib.pyplot as plt
 import streamlit as st
 
@@ -280,44 +279,10 @@ ax3.set_xlim(0, max_val)
 ax3.legend(fontsize=8, loc="lower right")
 fig3.tight_layout()
 
-# --- Plot 4: KDE with D50/D84 ---
-fig4, ax4 = plt.subplots(figsize=(8, 5))
-x_grid = np.linspace(0, max_val, 500)
-kde_photo = gaussian_kde(photo)
-kde_field = gaussian_kde(field)
-ax4.plot(x_grid, kde_photo(x_grid), color="#2a78d6", label="Photo")
-ax4.fill_between(x_grid, kde_photo(x_grid), color="#2a78d6", alpha=0.15)
-ax4.plot(x_grid, kde_field(x_grid), color="#e34948", label="Field")
-ax4.fill_between(x_grid, kde_field(x_grid), color="#e34948", alpha=0.15)
-
-d50_photo, d84_photo = np.percentile(photo, [50, 84])
-d50_field, d84_field = np.percentile(field, [50, 84])
-ax4.axvline(d50_photo, color="#2a78d6", linestyle="--", linewidth=1.5)
-ax4.axvline(d84_photo, color="#2a78d6", linestyle=":", linewidth=1.5)
-ax4.axvline(d50_field, color="#e34948", linestyle="--", linewidth=1.5)
-ax4.axvline(d84_field, color="#e34948", linestyle=":", linewidth=1.5)
-
-ymax = max(kde_photo(x_grid).max(), kde_field(x_grid).max())
-ax4.text(d50_photo, ymax * 1.02, f"D50={d50_photo:.1f}", color="#2a78d6", fontsize=8, ha="center")
-ax4.text(d84_photo, ymax * 1.08, f"D84={d84_photo:.1f}", color="#2a78d6", fontsize=8, ha="center")
-ax4.text(d50_field, ymax * 1.02, f"D50={d50_field:.1f}", color="#e34948", fontsize=8, ha="center")
-ax4.text(d84_field, ymax * 1.08, f"D84={d84_field:.1f}", color="#e34948", fontsize=8, ha="center")
-
-ax4.set_xlabel("B-axis (mm)")
-ax4.set_ylabel("Density")
-ax4.set_title("Density function (KDE) with D50 (--) and D84 (:) marked")
-ax4.set_ylim(0, ymax * 1.18)
-ax4.legend()
-fig4.tight_layout()
-
 g1, g2 = st.columns(2)
 with g1:
     st.pyplot(fig1)
 with g2:
     st.pyplot(fig2)
 
-g3, g4 = st.columns(2)
-with g3:
-    st.pyplot(fig3)
-with g4:
-    st.pyplot(fig4)
+st.pyplot(fig3)
