@@ -182,27 +182,9 @@ if len(outside_idx) > 0:
         st.write(f"  ({photo_q[i]:.1f}, {field_q[i]:.1f})")
 
 # -------------------------------------------------------------
-# Bootstrap D50
-# -------------------------------------------------------------
-st.header("7. Bootstrap: sampling uncertainty of D50")
-
-rng = np.random.default_rng(42)
-n_boot = 5000
-c1, c2 = st.columns(2)
-for col, name, arr in [(c1, "Photo", photo), (c2, "Field", field)]:
-    with col:
-        boot = [
-            np.percentile(rng.choice(arr, size=len(arr), replace=True), 50)
-            for _ in range(n_boot)
-        ]
-        ci = np.percentile(boot, [2.5, 97.5])
-        st.write(f"**{name}**: D50 = {np.median(arr):.2f} mm")
-        st.write(f"95% bootstrap CI = [{ci[0]:.2f}, {ci[1]:.2f}] mm")
-
-# -------------------------------------------------------------
 # Plots
 # -------------------------------------------------------------
-st.header("8. Plots")
+st.header("7. Plots")
 
 max_val = max(photo.max(), field.max()) * 1.1
 
