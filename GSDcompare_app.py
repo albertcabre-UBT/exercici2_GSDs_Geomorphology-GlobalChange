@@ -221,8 +221,11 @@ ax2.legend()
 fig2.tight_layout()
 
 # --- Plot 3: Multiplicative model with band ---
+
 band = 2 * sd_mult
+
 fig3, ax3 = plt.subplots(figsize=(7, 6))
+
 x_line = np.array([0, max_val])
 y_line = k * x_line
 
