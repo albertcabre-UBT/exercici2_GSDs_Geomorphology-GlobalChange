@@ -142,6 +142,7 @@ k = np.sum(photo_q * field_q) / np.sum(field_q ** 2)
 pred_mult = k * field_q
 resid_mult = photo_q - pred_mult
 sd_mult = resid_mult.std(ddof=1) if n_min > 1 else float("nan")
+band = 2 * sd_mult
 ss_res = np.sum(resid_mult ** 2)
 ss_tot = np.sum((photo_q - photo_q.mean()) ** 2)
 r2_mult = 1 - ss_res / ss_tot if ss_tot > 0 else float("nan")
