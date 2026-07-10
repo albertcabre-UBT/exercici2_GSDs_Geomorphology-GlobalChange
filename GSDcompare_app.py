@@ -69,23 +69,10 @@ if len(photo) < 4 or len(field) < 4:
 photo_sorted = np.sort(photo)
 field_sorted = np.sort(field)
 
-## -------------------------------------------------------------
-## Descriptive statistics
-## -------------------------------------------------------------
-#st.header("1. Descriptive statistics")
-#c1, c2 = st.columns(2)
-#for col, name, arr in [(c1, "Photo", photo), (c2, "Field", field)]:
-#    with col:
-#        st.subheader(name)
-#        st.write(f"n = {len(arr)}")
-#        st.write(f"Mean = {arr.mean():.2f} mm")
-#        st.write(f"Median = {np.median(arr):.2f} mm")
-#        st.write(f"Standard deviation = {arr.std(ddof=1):.2f} mm")
-
 # -------------------------------------------------------------
-# Percentiles and sorting
+# Percentiles
 # -------------------------------------------------------------
-st.header("2. Percentiles and sorting")
+st.header("Percentiles")
 c1, c2 = st.columns(2)
 for col, name, arr in [(c1, "Photo", photo), (c2, "Field", field)]:
     with col:
@@ -95,12 +82,12 @@ for col, name, arr in [(c1, "Photo", photo), (c2, "Field", field)]:
         st.write(f"D16 = {d16:.2f} mm")
         st.write(f"D50 = {d50:.2f} mm")
         st.write(f"D84 = {d84:.2f} mm")
-        st.write(f"Sorting = {sorting:.2f}")
+#        st.write(f"Sorting = {sorting:.2f}")
 
 # -------------------------------------------------------------
 # Statistical tests
 # -------------------------------------------------------------
-st.header("3. Statistical tests (independent distributions)")
+st.header("Statistical tests (independent distributions)")
 
 ks_stat, ks_p = stats.ks_2samp(photo, field)
 t_log, p_log = stats.ttest_ind(np.log(photo), np.log(field), equal_var=False)
@@ -127,9 +114,9 @@ st.caption(
 )
 
 # -------------------------------------------------------------
-# Additive model (regression on paired quantiles)
+# Additive model (regression on paired quantiles Q-Q)
 # -------------------------------------------------------------
-st.header("4. Additive model: field = a·photo + b")
+st.header("Additive model: field = a·photo + b")
 
 n_min = min(len(photo_sorted), len(field_sorted))
 if len(photo_sorted) != len(field_sorted):
@@ -149,7 +136,7 @@ st.write(f"Residual SD (noise after removing the bias): {sd_add:.2f} mm")
 # -------------------------------------------------------------
 # Multiplicative model (foreshortening)
 # -------------------------------------------------------------
-st.header("5. Multiplicative model: photo = k·field")
+st.header("Multiplicative model: photo = k·field")
 
 k = np.sum(photo_q * field_q) / np.sum(field_q ** 2)
 pred_mult = k * field_q
@@ -164,26 +151,10 @@ st.write(f"**photo = {k:.4f} · field**  (R² = {r2_mult:.3f})")
 st.write(f"Implied angle (if k = cos(θ)): {theta_deg:.1f}°")
 st.write(f"Residual SD: {sd_mult:.2f} mm")
 
-## -------------------------------------------------------------
-## +/- 2 sigma band
-## -------------------------------------------------------------
-#st.header("6. ±2σ band (on the multiplicative model)")
-
-#band = 2 * sd_mult
-#within = np.sum(np.abs(resid_mult) <= band)
-#st.write(f"Band: ± {band:.2f} mm")
-#st.write(f"Points within band: {within}/{n_min} ({within/n_min*100:.1f}%)")
-
-#outside_idx = np.where(np.abs(resid_mult) > band)[0]
-#if len(outside_idx) > 0:
-#    st.write("Points outside the band (photo, field):")
-#   for i in outside_idx:
-#        st.write(f"  ({photo_q[i]:.1f}, {field_q[i]:.1f})")
-
 # -------------------------------------------------------------
 # Plots
 # -------------------------------------------------------------
-st.header("7. Plots")
+st.header("Plots")
 
 max_val = max(photo.max(), field.max()) * 1.1
 
