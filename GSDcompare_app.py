@@ -220,6 +220,7 @@ fig2.tight_layout()
 fig3, ax3 = plt.subplots(figsize=(7, 6))
 x_line = np.array([0, max_val])
 y_line = k * x_line
+band = 2 * sd_mult
 ax3.plot(x_line, y_line, "--", color="#52514e", label=f"Model photo = {k:.3f}·field")
 ax3.fill_between(
     x_line, y_line - band, y_line + band, color="gray", alpha=0.15,
