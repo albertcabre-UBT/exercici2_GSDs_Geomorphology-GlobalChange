@@ -69,18 +69,18 @@ if len(photo) < 4 or len(field) < 4:
 photo_sorted = np.sort(photo)
 field_sorted = np.sort(field)
 
-# -------------------------------------------------------------
-# Descriptive statistics
-# -------------------------------------------------------------
-st.header("1. Descriptive statistics")
-c1, c2 = st.columns(2)
-for col, name, arr in [(c1, "Photo", photo), (c2, "Field", field)]:
-    with col:
-        st.subheader(name)
-        st.write(f"n = {len(arr)}")
-        st.write(f"Mean = {arr.mean():.2f} mm")
-        st.write(f"Median = {np.median(arr):.2f} mm")
-        st.write(f"Standard deviation = {arr.std(ddof=1):.2f} mm")
+## -------------------------------------------------------------
+## Descriptive statistics
+## -------------------------------------------------------------
+#st.header("1. Descriptive statistics")
+#c1, c2 = st.columns(2)
+#for col, name, arr in [(c1, "Photo", photo), (c2, "Field", field)]:
+#    with col:
+#        st.subheader(name)
+#        st.write(f"n = {len(arr)}")
+#        st.write(f"Mean = {arr.mean():.2f} mm")
+#        st.write(f"Median = {np.median(arr):.2f} mm")
+#        st.write(f"Standard deviation = {arr.std(ddof=1):.2f} mm")
 
 # -------------------------------------------------------------
 # Percentiles and sorting
@@ -164,21 +164,21 @@ st.write(f"**photo = {k:.4f} · field**  (R² = {r2_mult:.3f})")
 st.write(f"Implied angle (if k = cos(θ)): {theta_deg:.1f}°")
 st.write(f"Residual SD: {sd_mult:.2f} mm")
 
-# -------------------------------------------------------------
-# +/- 2 sigma band
-# -------------------------------------------------------------
-st.header("6. ±2σ band (on the multiplicative model)")
+## -------------------------------------------------------------
+## +/- 2 sigma band
+## -------------------------------------------------------------
+#st.header("6. ±2σ band (on the multiplicative model)")
 
-band = 2 * sd_mult
-within = np.sum(np.abs(resid_mult) <= band)
-st.write(f"Band: ± {band:.2f} mm")
-st.write(f"Points within band: {within}/{n_min} ({within/n_min*100:.1f}%)")
+#band = 2 * sd_mult
+#within = np.sum(np.abs(resid_mult) <= band)
+#st.write(f"Band: ± {band:.2f} mm")
+#st.write(f"Points within band: {within}/{n_min} ({within/n_min*100:.1f}%)")
 
-outside_idx = np.where(np.abs(resid_mult) > band)[0]
-if len(outside_idx) > 0:
-    st.write("Points outside the band (photo, field):")
-    for i in outside_idx:
-        st.write(f"  ({photo_q[i]:.1f}, {field_q[i]:.1f})")
+#outside_idx = np.where(np.abs(resid_mult) > band)[0]
+#if len(outside_idx) > 0:
+#    st.write("Points outside the band (photo, field):")
+#   for i in outside_idx:
+#        st.write(f"  ({photo_q[i]:.1f}, {field_q[i]:.1f})")
 
 # -------------------------------------------------------------
 # Plots
